@@ -10,9 +10,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+from scipy.interpolate import CubicSpline
 
 # read a csv file
-df = pd.read_csv('/home/giorgio/ros/spline/trajectory.csv')
+# df = pd.read_csv('/home/giorgio/ros/spline/trajectory.csv')
+df = pd.read_csv('/home/lar-tesi01/ros/spline/trajectory.csv')
+
 
 j1 = df['J1'].values
 j2 = df['J2'].values
@@ -21,6 +24,21 @@ j4 = df['J4'].values
 j5 = df['J5'].values
 j6 = df['J6'].values
 index = df.index.values
+
+# interpolate the data with a cubic spline
+cs1 = CubicSpline(index, j1)
+cs2 = CubicSpline(index, j2)
+cs3 = CubicSpline(index, j3)
+cs4 = CubicSpline(index, j4)
+cs5 = CubicSpline(index, j5)
+cs6 = CubicSpline(index, j6)
+
+j1 = cs1(index)
+j2 = cs2(index)
+j3 = cs3(index)
+j4 = cs4(index)
+j5 = cs5(index)
+j6 = cs6(index)
 
 # compute velocity and acceleration
 v1 = np.diff(j1)
