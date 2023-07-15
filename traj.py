@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.interpolate import CubicSpline
 from scipy.special import comb
-from sklearn.metrics import r2_score
+
 
 # read a csv file
 df = pd.read_csv('/home/giorgio/ros/spline/trajectory.csv')
@@ -20,6 +20,15 @@ j4 = df['J4'].values
 j5 = df['J5'].values
 j6 = df['J6'].values
 index = df.index.values
+
+# se j5 = 0,pi,-pi or j3 = 0,pi,-pi, or j2=0andj3=0andj4=0
+# the trajectory is not feasible print a message and exit
+tol = 1e-1
+if np.allclose(j5, 0,atol=tol) or np.allclose(j5, np.pi,atol=tol) or np.allclose(j5, -np.pi,atol=tol) or np.allclose(j3, 0,atol=tol) or np.allclose(j3, np.pi,atol=tol) or np.allclose(j3, -np.pi,atol=tol) or np.allclose(j2, 0,atol=tol) and np.allclose(j3, 0,atol=tol) and np.allclose(j4, 0,atol=tol):
+    print('Trajectory not feasible')
+    quit()
+
+quit()
 
 # compute velocity and acceleration
 v1 = np.diff(j1)
